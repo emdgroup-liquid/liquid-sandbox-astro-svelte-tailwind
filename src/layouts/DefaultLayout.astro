@@ -1,0 +1,50 @@
+---
+import Background from '../components/Background/Background.astro';
+import Footer from '../components/Footer/Footer.astro';
+---
+
+<script>
+  // let successMessages = [
+  //   'Nice! 👍',
+  //   'Aaaweeesome! 🙌',
+  //   'Rock on! 🤘',
+  //   'How cool is that?! 😎',
+  //   'Rad! 🤓',
+  //   'Supersonic! ⚡️',
+  //   'Magic! ✨',
+  //   'Groovy baby! 🕺',
+  //   'Lovely! 🥰',
+  //   'Smooth! 💆‍♀️',
+  //   'Mind-blowing! 🤯️',
+  //   'Excellent! 👌️',
+  //   'Delicious! 🤤️',
+  //   'Outa space! 👽',
+  // ]
+
+  // function onThemeChange(theme) {
+  //   setTimeout(() => {
+  //     dispatchEvent(new CustomEvent('ldNotificationClear'))
+  //     dispatchEvent(
+  //       new CustomEvent('ldNotificationAdd', {
+  //         detail: {
+  //           content: successMessages[0],
+  //           type: 'info',
+  //           timeout: 2000,
+  //         },
+  //       })
+  //     )
+  //     successMessages = [...successMessages.slice(1), successMessages[0]]
+  //   }, 500)
+  // }
+</script>
+
+<div class={`flex flex-col min-h-screen`}>
+  <main class="relative min-h-full">
+    <!-- <ld-bg-cells class={`block absolute inset-0 min-h-full ld-theme-bubblegum`} /> -->
+    <Background />
+    <slot />
+  </main>
+
+  <Footer client:load></Footer>
+  <ld-notification placement="bottom" />
+</div>

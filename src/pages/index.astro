@@ -1,0 +1,58 @@
+---
+
+// import Index from "./index.svelte"
+// import Footer from '../components/Footer/Footer.astro'
+
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import Headline from "../components/Headline.astro";
+import Container from "../components/Container.astro";
+import ThemeSelect from "../components/Form/ThemeSelect.svelte";
+import Form from "../components/Form/Form.svelte";
+
+import '@emdgroup-liquid/liquid/dist/css/liquid.global.css'
+
+--- 
+
+<script>
+  window['__LD_ASSET_PATH__'] = window.location.origin + ''
+    ; (async () => {
+      const { setAssetPath } = await import('@emdgroup-liquid/liquid/dist/components')
+      const modules = await Promise.all([
+        import('@emdgroup-liquid/liquid/dist/components/ld-bg-cells'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-button'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-checkbox'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-icon'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-input'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-input-message'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-label'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-notification'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-option'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-option-internal'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-select-popper'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-select'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-tooltip'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-tooltip-popper'),
+        import('@emdgroup-liquid/liquid/dist/components/ld-typo'),
+      ])
+
+      setAssetPath(window.location.origin)
+      modules.forEach((module) => {
+        module.defineCustomElement()
+      })
+    })()
+</script>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<DefaultLayout>
+  <div class="container mx-auto px-ld-24 pt-ld-40 pb-24 relative max-w-2xl">
+    <Headline>Liquid Sandbox App</Headline>
+    <!-- <ld-typo variant="b1" class="text-vy mb-ld-40">Liquid Sandbox App</ld-typo> -->
+    <Container>
+      <ThemeSelect client:only="svelte"></ThemeSelect>
+      <Form client:only="svelte" />
+    </Container>
+  </div>
+</DefaultLayout>
