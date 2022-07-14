@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "cp node_modules/@emdgroup-liquid/liquid/dist/liquid/assets/* ./public/assets && astro dev",
+    "dev": "cp -r ./node_modules/@emdgroup-liquid/liquid/dist/liquid/assets/. ./public/assets && astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
