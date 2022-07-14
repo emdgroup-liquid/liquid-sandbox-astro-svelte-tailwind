@@ -3,7 +3,13 @@
   import { required, email as emailValidator, url as urlValidator } from 'svelte-forms/validators'
   import { titles } from './titles'
 
-  let validated = false
+  let validated = {
+    title: false,
+    fullName: false,
+    email: false,
+    website: false,
+    termsAccepted: false,
+  }
 
   const title = field('title', '', [])
   const fullName = field('fullName', '', [required()], { validateOnChange: false })
@@ -33,7 +39,13 @@
   async function onSubmit() {
     await sandboxForm.validate()
 
-    validated = true
+    validated = {
+      title: true,
+      fullName: true,
+      email: true,
+      website: true,
+      termsAccepted: true,
+    }
     const isFormValid = $sandboxForm.valid
 
     if (isFormValid) {
@@ -82,6 +94,7 @@
       placeholder="No title"
       on:ldinput={(ev) => {
         title.set(ev.detail[0])
+        validated.title = true
         // title = ev.detail[0]
       }}
     >
@@ -91,7 +104,7 @@
         </ld-option>
       {/each}
     </ld-select>
-    <ld-input-message mode="valid" style={`visibility: ${validated ? 'inherit' : 'hidden'}`}>
+    <ld-input-message mode="valid" style={`visibility: ${validated.title ? 'inherit' : 'hidden'}`}>
       Good pick.
     </ld-input-message>
   </ld-label>
@@ -102,19 +115,22 @@
       placeholder="e.g. Jason Parse"
       tone="dark"
       value={$fullName.value}
-      invalid={validated && $sandboxForm.hasError('fullName.required')}
+      invalid={validated.fullName && $sandboxForm.hasError('fullName.required')}
       on:ldinput={(ev) => {
         fullName.set(ev.target.value)
-        if (validated) fullName.validate()
+        if (validated.fullName) {
+          fullName.validate()
+        }
       }}
       on:blur={() => {
-        console.log($fullName.value)
+        fullName.validate()
+        validated.fullName = true
       }}
     />
 
     <ld-input-message
       mode={!$sandboxForm.hasError('fullName.required') ? 'valid' : 'error'}
-      style={`visibility: ${validated ? 'inherit' : 'hidden'}`}
+      style={`visibility: ${validated.fullName ? 'inherit' : 'hidden'}`}
     >
       {!$sandboxForm.hasError('fullName.required') ? 'Lovely name.' : 'Your full name is required.'}
     </ld-input-message>
@@ -127,18 +143,19 @@
       placeholder="e.g. jason.parse@example.com"
       tone="dark"
       value={$email.value}
-      invalid={validated &&
+      invalid={validated.email &&
         ($sandboxForm.hasError('email.required') || $sandboxForm.hasError('email.not_an_email'))}
       on:ldinput={async (ev) => {
         email.set(ev.target.value)
-        if (validated) {
+        if (validated.email) {
           await email.validate()
-          console.log($sandboxForm.hasError('email.not_an_email'))
         }
         // email = ev.target.value
         // if (emailDirty) validator.validate()
       }}
       on:blur={() => {
+        email.validate()
+        validated.email = true
         // emailDirty = emailDirty || !!email
         // if (emailDirty) validator.validate()
       }}
@@ -147,7 +164,7 @@
       mode={$sandboxForm.hasError('email.required') || $sandboxForm.hasError('email.not_an_email')
         ? 'error'
         : 'valid'}
-      style={`visibility: ${validated ? 'inherit' : 'hidden'}`}
+      style={`visibility: ${validated.email ? 'inherit' : 'hidden'}`}
     >
       {#if $sandboxForm.hasError('email.required')}
         Your email address is required.
@@ -166,20 +183,21 @@
       placeholder="e.g. https://example.com"
       tone="dark"
       value={$website.value}
-      invalid={(validated && $sandboxForm.hasError('website.url')) || undefined}
+      invalid={(validated.website && $sandboxForm.hasError('website.url')) || undefined}
       on:ldinput={(ev) => {
         website.set(ev.target.value)
-        if (validated) website.validate()
+        if (validated.website) website.validate()
       }}
       on:blur={() => {
-        if (validated) website.validate()
+        website.validate()
+        validated.website = true
         // websiteDirty = websiteDirty || !!website
         // if (websiteDirty) validator.validate()
       }}
     />
     <ld-input-message
       mode={$sandboxForm.hasError('website.url') ? 'error' : 'valid'}
-      style={`visibility: ${validated ? 'inherit' : 'hidden'}`}
+      style={`visibility: ${validated.website ? 'inherit' : 'hidden'}`}
     >
       {!$sandboxForm.hasError('website.url')
         ? 'You even have a website! 👍'
@@ -195,18 +213,21 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-ld-24 items-center">
   <ld-label position="right" size="m">
-    <span class:text-rr={validated && $sandboxForm.hasError('termsAccepted.required')}
+    <span class:text-rr={validated.termsAccepted && $sandboxForm.hasError('termsAccepted.required')}
       >I accept the terms (none).</span
     >
     <ld-checkbox
       tone="dark"
       checked={$termsAccepted.value}
-      invalid={validated && $sandboxForm.hasError('termsAccepted.required')}
+      invalid={validated.termsAccepted && $sandboxForm.hasError('termsAccepted.required')}
       on:ldinput={() => {
         termsAccepted.set(!$termsAccepted.value)
-        if (validated) termsAccepted.validate()
+        if (validated.termsAccepted) termsAccepted.validate()
       }}
-      on:blur={() => {}}
+      on:blur={() => {
+        termsAccepted.validate()
+        validated.termsAccepted = true
+      }}
     />
   </ld-label>
 
@@ -215,3 +236,7 @@
     <ld-button on:click={onSubmit}>Submit</ld-button>
   </div>
 </div>
+
+<!-- <pre>
+  {JSON.stringify($sandboxForm, null, 2)}
+</pre> -->
