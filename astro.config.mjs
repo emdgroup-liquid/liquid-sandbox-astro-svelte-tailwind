@@ -2,11 +2,10 @@ import { defineConfig } from 'astro/config'
 import { viteStaticCopy as copy } from 'vite-plugin-static-copy'
 import tailwind from '@astrojs/tailwind'
 import svelte from '@astrojs/svelte'
-import react from '@astrojs/react'
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), svelte(), react()],
+  integrations: [tailwind(), svelte()],
   vite: {
     plugins: [
       copy({

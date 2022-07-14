@@ -8,14 +8,14 @@
     "build": "astro build",
     "preview": "astro preview"
   },
+  "engines": {
+    "node": "16.14"
+  },
   "devDependencies": {
-    "@astrojs/react": "^0.3.0",
     "@astrojs/svelte": "^0.2.0",
     "@astrojs/tailwind": "^0.2.2",
     "astro": "^1.0.0-beta.64",
     "prettier": "^2.7.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "vite-plugin-static-copy": "^0.6.1"
   },
   "dependencies": {
