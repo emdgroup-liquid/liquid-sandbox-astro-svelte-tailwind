@@ -1,7 +1,6 @@
 <script lang="ts">
   import { form, field } from 'svelte-forms'
   import { required, email as emailValidator, url as urlValidator } from 'svelte-forms/validators'
-  import { get } from 'svelte/store'
   import { titles } from './titles'
 
   let validated = false

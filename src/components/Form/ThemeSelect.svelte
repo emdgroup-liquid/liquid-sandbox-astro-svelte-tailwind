@@ -27,7 +27,6 @@
     document.body.classList.toggle('ld-theme-shake', theme === 'shake')
     document.body.classList.toggle('ld-theme-solvent', theme === 'solvent')
     document.body.classList.toggle('ld-theme-tea', theme === 'tea')
-    // dispatch('changeTheme', theme)
 
     setTimeout(() => {
       dispatchEvent(new CustomEvent('ldNotificationClear'))
